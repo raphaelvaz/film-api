@@ -8,16 +8,23 @@ export const badRequest = (error: Error): HttpResponse => {
     }
 }
 
-export const successRequest = (movie: Movie): HttpResponse => {
+export const successRequest = (data: any): HttpResponse => {
     return {
         statusCode: 200,
-        body: movie,
+        body: data,
     }
 }
 
 export const serverError = (error: Error): HttpResponse => {
     return {
         statusCode: 500,
+        body: error
+    }
+}
+
+export const notFound = (error: Error): HttpResponse => {
+    return {
+        statusCode: 404,
         body: error
     }
 }

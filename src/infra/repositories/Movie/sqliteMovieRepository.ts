@@ -36,4 +36,12 @@ export class SqliteMovieRepository implements MovieRepository {
         }
         return undefined;
     }
+
+    async findAll(): Promise<Movie[]> {
+        const rawData = await ORMMovie.findAll({ include: ORMGenre })
+        const movies = rawData.map((data) => {
+            return data.toJSON();
+        })
+        return movies as Movie[];
+    }
 }

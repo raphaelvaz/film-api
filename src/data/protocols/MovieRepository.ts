@@ -17,4 +17,5 @@ export interface MovieRepository {
     add: (movieData: AddMovieData) => Promise<Movie>
     exists: (movieData: checkMovieData) => Promise<Boolean>
     findById: (id: string) => Promise<Movie | undefined>
+    findAll: () => Promise<Movie[]>
 }
