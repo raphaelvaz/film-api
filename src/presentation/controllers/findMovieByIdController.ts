@@ -10,7 +10,6 @@ export default class findMovieByIdController implements Controller {
     async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
         try {
             const { id } = httpRequest.params;
-
             const movie = await this.findMovieById.find(id);
             if (movie)
                 return successRequest(movie);

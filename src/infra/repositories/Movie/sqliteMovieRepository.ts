@@ -1,5 +1,5 @@
 import { Op } from "sequelize";
-import { AddMovieData, checkMovieData, MovieRepository } from "../../../data/protocols/MovieRepository";
+import { AddMovieData, checkMovieData, MovieRepository, UpdateMovieData } from "../../../data/protocols/MovieRepository";
 import { Genre } from "../../../domain/entities/genre";
 import { Movie } from "../../../domain/entities/movie";
 import { Genre as ORMGenre, Movie as ORMMovie } from "../../orm/sequelize/models";
@@ -43,5 +43,28 @@ export class SqliteMovieRepository implements MovieRepository {
             return data.toJSON();
         })
         return movies as Movie[];
+    }
+    async delete(id: string): Promise<boolean> {
+        const isDeleted = await ORMMovie.destroy({ where: { id } });
+        return isDeleted ? true : false;
+    }
+
+    async update({ id, title, year, country, genres }: UpdateMovieData): Promise<Movie> {
+        //péssimo
+        await ORMMovie.update({ title, year, country, genres }, { where: { id } });
+        const rawData = await ORMMovie.findOne({ where: { id }, include: ORMGenre });
+
+        const movie = rawData?.toJSON() as Movie;
+        if (genres) {
+            for (const genre of movie.genres) {
+                await (rawData as any).removeGenre(genre.id, { through: {} })
+            }
+            for (const genre of genres as Genre[]) {
+                await (rawData as any).addGenre(genre.id, { through: {} })
+            }
+        }
+        const updatedMovie = await ORMMovie.findOne({ where: { id }, include: ORMGenre });
+
+        return updatedMovie?.toJSON() as Movie;
     }
 }
