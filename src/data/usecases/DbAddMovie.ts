@@ -13,7 +13,6 @@ export class DbAddMovie implements AddMovie {
     async add(movieData: AddMovieRequestData): Promise<Movie> {
         const { title, year, country, genres } = movieData;
         const movieExists = await this.movieRepository.exists({ title, year });
-
         if (!movieExists) {
             const genresFromMovie: Genre[] = [];
             for (const genre of genres) {

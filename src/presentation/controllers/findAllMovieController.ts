@@ -10,10 +10,7 @@ export default class findAllMovieController implements Controller {
     async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
         try {
             const movies = await this.findAllMovie.find();
-            if (movies.length)
-                return successRequest(movies);
-
-            return notFound(new NotFoundError('movies not found'));
+            return successRequest(movies);
         } catch (error) {
             return serverError(new ServerError())
         }

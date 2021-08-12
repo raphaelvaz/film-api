@@ -1,5 +1,5 @@
 import { Movie } from "../entities/movie";
 
 export interface FindMovieById {
-    find(id: string): Promise<Movie | undefined>
+    find(id: number): Promise<Movie | undefined>
 }

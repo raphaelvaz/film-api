@@ -10,7 +10,6 @@ export class SqliteMovieRepository implements MovieRepository {
         for (const genre of genres as Genre[]) {
             await (rawData as any).addGenre(genre.id, { through: {} })
         }
-        console.log(rawData.toJSON())
         const movie: Movie = Object.assign({ ...rawData.toJSON(), genres })
         return movie;
     }
@@ -28,7 +27,7 @@ export class SqliteMovieRepository implements MovieRepository {
             return true;
         return false;
     }
-    async findById(id: string): Promise<Movie | undefined> {
+    async findById(id: number): Promise<Movie | undefined> {
         const rawData = await ORMMovie.findOne({ where: { id }, include: ORMGenre })
         if (rawData) {
             const movie: Movie = Object.assign({ ...rawData.toJSON() });
@@ -44,7 +43,7 @@ export class SqliteMovieRepository implements MovieRepository {
         })
         return movies as Movie[];
     }
-    async delete(id: string): Promise<boolean> {
+    async delete(id: number): Promise<boolean> {
         const isDeleted = await ORMMovie.destroy({ where: { id } });
         return isDeleted ? true : false;
     }

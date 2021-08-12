@@ -1,5 +1,5 @@
 
 
 export interface DeleteMovie {
-    delete(id: string): Promise<boolean>;
+    delete(id: number): Promise<boolean>;
 }

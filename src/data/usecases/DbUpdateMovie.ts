@@ -11,9 +11,8 @@ export class DbUpdateMovie implements UpdateMovie {
     ) { }
 
     async update({ id, title, year, country, genres }: UpdateMovieRequestData): Promise<Movie> {
-        const genresFromMovie: Genre[] = [];
-        console.log(genres);
         if (genres) {
+            const genresFromMovie: Genre[] = [];
             for (const genre of genres) {
                 const storageGenre = await this.genreRepository.exists(genre);
                 if (!storageGenre) {
@@ -23,8 +22,11 @@ export class DbUpdateMovie implements UpdateMovie {
                     genresFromMovie.push(storageGenre);
                 }
             }
+            const movie = await this.movieRepository.update({ id, title, year, country, genres: genresFromMovie });
+            if (movie)
+                return movie;
         }
-        const movie = await this.movieRepository.update({ id, title, year, country, genres: genresFromMovie });
+        const movie = await this.movieRepository.update({ id, title, year, country });
         if (movie)
             return movie;
 

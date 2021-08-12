@@ -25,8 +25,8 @@ export interface UpdateMovieData {
 export interface MovieRepository {
     add: (movieData: AddMovieData) => Promise<Movie>
     exists: (movieData: checkMovieData) => Promise<Boolean>
-    findById: (id: string) => Promise<Movie | undefined>
+    findById: (id: number) => Promise<Movie | undefined>
     findAll: () => Promise<Movie[]>
-    delete: (id: string) => Promise<boolean>
+    delete: (id: number) => Promise<boolean>
     update: (movieData: UpdateMovieData) => Promise<Movie>
 }

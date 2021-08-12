@@ -9,12 +9,12 @@ export class sqliteGenreRepository implements GenreRepository {
         return genre;
 
     }
-    async exists(type: string): Promise<Genre | null> {
+    async exists(type: string): Promise<Genre | undefined> {
         const rawData = await ORMGenre.findOne({ where: { type } })
 
         if (rawData) {
             return Object.assign({ ...rawData.toJSON() }) as Genre;
         }
-        return null;
+        return undefined;
     }
 }

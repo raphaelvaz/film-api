@@ -7,7 +7,7 @@ export class DbFindMovieById implements FindMovieById {
         private readonly movieRepository: MovieRepository
     ) { }
 
-    async find(id: string): Promise<Movie | undefined> {
+    async find(id: number): Promise<Movie | undefined> {
         const movie = await this.movieRepository.findById(id);
         if (movie)
             return movie;
